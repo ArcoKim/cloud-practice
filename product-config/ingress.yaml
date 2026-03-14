@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: product
+  namespace: skills
+  annotations:
+    alb.ingress.kubernetes.io/load-balancer-name: skills-app-alb
+    alb.ingress.kubernetes.io/group.name: skills
+    alb.ingress.kubernetes.io/target-type: instance
+    alb.ingress.kubernetes.io/target-node-labels: node=app
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/healthcheck-path: /healthcheck
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /v1/product
+            pathType: Exact
+            backend:
+              service:
+                name: product
+                port:
+                  number: 80

@@ -1,0 +1,12 @@
+apiVersion: vpcresources.k8s.aws/v1beta1
+kind: SecurityGroupPolicy
+metadata:
+  name: skills-sg-policy
+  namespace: skills
+spec:
+  podSelector: 
+    matchLabels:
+      app: product
+  securityGroups:
+    groupIds:
+      - sg-032cf501392e24347

@@ -1,0 +1,16 @@
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: product-updater
+  namespace: argocd
+spec:
+  namespace: argocd
+  applicationRefs:
+    - namePattern: "product"
+      images:
+        - alias: "org-app"
+          imageName: "073813292468.dkr.ecr.ap-northeast-2.amazonaws.com/product"
+          commonUpdateSettings:
+            updateStrategy: "newest-build"
+            allowTags: "any"
+            pullSecret: "ext:/scripts/auth1.sh"

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product
+  namespace: skills
+spec:
+  selector:
+    matchLabels:
+      app: product
+  template:
+    metadata:
+      labels:
+        app: product
+    spec:
+      terminationGracePeriodSeconds: 60
+      nodeSelector:
+        node: app
+      tolerations:
+      - key: node
+        operator: Equal
+        value: app
+        effect: NoSchedule
+      containers:
+      - name: product
+        image: 073813292468.dkr.ecr.ap-northeast-2.amazonaws.com/product:1
+        envFrom:
+        - secretRef:
+            name: product
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            cpu: 250m
+            memory: 512Mi
+        ports:
+        - containerPort: 8080
